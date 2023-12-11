@@ -5,6 +5,8 @@ default:
 pg1065.txt:
 	wget https://www.gutenberg.org/cache/epub/1065/pg1065.txt 
 
+# TODO: This next command appears to be missing the `wc -l` part...
+
 # include ONLY the lines that include any upper/lower combination of raven, (Raven, RAVEN etc)raven_lines.txt:
 	cat pg1065.txt| grep -i 'raven' >raven_lines.txt
 
@@ -21,7 +23,7 @@ number_of_raven.txt:
 	cat pg1065.txt| grep -w  'raven' | wc -l > number_of_raven.txt
 
 # This creates all files
-
+# COMMENT: nice, getting all the jobs in a one liner is the way to go
 make_all: pg1065.txt raven_lines.txt number_of_Raven.txt number_of_RAVEN.txt number_of_raven.txt
 
 # Remove all files generated
@@ -29,3 +31,6 @@ make_all: pg1065.txt raven_lines.txt number_of_Raven.txt number_of_RAVEN.txt num
 clean:
 	rm *.txt
 
+# COMMENT: You probably ran into a bug, which is not your fault... linux seems to treat file names as case
+#    insensitive, thus the jobs above would not be able to run in sequence.  We could change the names of the
+#    jobs and files by replacing the `number_of_` to `one_`, `two_` etc to make thins work.  
